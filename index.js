@@ -60,6 +60,15 @@ app.put("/monsters/:id", (req, res) => {
   res.json(helper.success(message, monsterModified));
 });
 
+// DELETE /monsters/:id - Supprimer un monstre
+app.delete("/monsters/:id", (req, res) => {
+  id = parseInt(req.params.id);
+  const monsterDeleted = monsters.find((monster) => monster.id === id);
+  monsters = monsters.filter((monster) => monster.id !== id);
+  const message = `Le monstre ${monsterDeleted?.name} a bien été supprimé !`;
+  res.json(helper.success(message, monsterDeleted));
+});
+
 // Localhost
 app.listen(port, () => {
   console.log(`App listening on http://localhost:${port}`);
