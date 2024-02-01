@@ -69,6 +69,14 @@ app.delete("/monsters/:id", (req, res) => {
   res.json(helper.success(message, monsterDeleted));
 });
 
+// DELETE /monsters - DOOMSDAY, supprimer tous les monstres !
+app.delete("/monsters", (req, res) => {
+  const monsterLength = monsters.length;
+  const message = `It's DOOMSDAY !! ${monsterLength} monstres ont été détruits !`;
+  monsters = [];
+  res.json(helper.success(message, monsters));
+});
+
 // Localhost
 app.listen(port, () => {
   console.log(`App listening on http://localhost:${port}`);
