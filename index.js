@@ -36,12 +36,27 @@ app.get("/monsters/:id", (req, res) => {
 // POST /monsters - Créer un monstre
 app.post("/monsters", (req, res) => {
   id = helper.monsterId(monsters);
-  const monsterModified = {
+  const monsterCreated = {
     ...req.body,
     ...{ id: id, created_at: new Date() },
   };
-  monsters.push(monsterModified);
-  const message = `Le monstre ${monsterModified.name} a été ajouté avec succès !`;
+  monsters.push(monsterCreated);
+  const message = `Le monstre ${monsterCreated.name} a été ajouté avec succès !`;
+  res.json(helper.success(message, monsterCreated));
+});
+
+// PUT /monsters/:id - Modifier un monstre
+app.put("/monsters/:id", (req, res) => {
+  id = parseInt(req.params.id);
+  const monsterName = monsters.find((monster) => monster.id === id);
+  const monsterModified = {
+    ...req.body,
+    ...{ id: id, modified_at: new Date() },
+  };
+  const message = `Le monstre ${monsterName.name} a bien été modifié !`;
+  monsters = monsters.map((monster) =>
+    monster.id === id ? monsterModified : monster
+  );
   res.json(helper.success(message, monsterModified));
 });
 
